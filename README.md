@@ -28,14 +28,10 @@ This repository provides a **minimal yet extensible** example of an OPC UA **Ser
 
 ## 🧩 Repository Structure
 
-```text
-📦 opc-ua-playground/
-│
-├── [server.py](./server.py) # OPC UA server: creates and updates devices & variables
-├── [client.py](./client.py) # OPC UA client: connects, browses, and monitors variables
-├── [requirements.txt](./requirements.txt) # Dependencies
-└── [README.md](./README.md) # This file
-```
+- [server.py](./server.py) # OPC UA server: creates and updates devices & variables
+- [client.py](./client.py) # OPC UA client: connects, browses, and monitors variables
+- [requirements.txt](./requirements.txt) # Dependencies
+- [README.md](./README.md) # This file
 
 ---
 
