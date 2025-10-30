@@ -141,15 +141,6 @@ It’s the evolution of the classic OPC protocol, re-designed to be:
 | ⚠️ `cryptography is not installed` | Optional package missing                   | Install with `pip install cryptography`                                      |
 | ⚠️ Server stops updating           | Main loop blocked                          | Use non-blocking or threaded updates for future scalability                  |
 
-## 🧩 Extending the Project
-
-Future enhancements could include:
-- [] MQTT bridge (bidirectional OPC UA ⇄ MQTT data exchange)
-- [] Web dashboard for real-time visualization
-- [] Logging historical data to a database (e.g., InfluxDB)
-- [] Integration with Digital Twin frameworks
-- [] Deployment in Docker containers
-
 ## 👨‍💻 Author
 <div style="display: flex; flex-direction: column; gap: 25px;">
     <!-- Davide Ziglioli -->
