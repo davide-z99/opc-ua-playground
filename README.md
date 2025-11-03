@@ -28,8 +28,13 @@ This repository provides a **minimal yet extensible** example of an OPC UA **Ser
 
 ## 🧩 Repository Structure
 
-- [server.py](./server.py) # OPC UA server: creates and updates devices & variables
-- [client.py](./client.py) # OPC UA client: connects, browses, and monitors variables
+- [server.py](./server.py) # OPC UA server
+- [device.py](./device.py) # Device: creates and updates devices & variables
+- [pub_sub](./pub_sub/)
+    - [sub_client.py](./pub_sub/sub_client.py) # OPC UA client: connects, browses, and monitors variables
+    - [sub_handler.py](./pub_sub/sub_handler.py) # Handles the subscriptions to the server's devices
+- [request_response](./request_response/)
+    - [request_client.py](./request_response/request_client.py) # OPC UA Client: send a request to the server for a specific device
 - [requirements.txt](./requirements.txt) # Dependencies
 - [README.md](./README.md) # This file
 
@@ -81,12 +86,12 @@ Expected output example:
 ```bash
 Connected to OPC UA Server at opc.tcp://localhost:4840/freeopcua/server/
 
-Found device: Thermometer_1
+Found device: Boiler_1
  - Temperature: 20.1
  - Pressure: 1.03
  - Running: True
 
-Found device: Barometer_2
+Found device: Pump_2
  - Temperature: 20.4
  - Pressure: 1.02
  - Running: False
