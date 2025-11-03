@@ -81,12 +81,12 @@ Expected output example:
 ```bash
 Connected to OPC UA Server at opc.tcp://localhost:4840/freeopcua/server/
 
-Found device: Thermometer_1
+Found device: Boiler_1
  - Temperature: 20.1
  - Pressure: 1.03
  - Running: True
 
-Found device: Barometer_2
+Found device: Pump_2
  - Temperature: 20.4
  - Pressure: 1.02
  - Running: False
