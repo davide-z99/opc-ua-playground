@@ -11,7 +11,9 @@ It’s widely used in **Industry 4.0**, **Digital Twins**, and **Industrial IoT*
 This repository provides a **minimal yet extensible** example of an OPC UA **Server–Client** system built with Python, focusing on:
 - clarity and simplicity for educational purposes;
 - modularity for future extensions (e.g., MQTT bridge, REST APIs, etc.);
-- structured OOP design suitable for integration in larger automation systems.
+- structured OOP design suitable for integration in larger automation systems;
+- logging and error-handling to support long-running systems;
+- real-time data updates and bidirectional communication (read/write + remote methods).
 
 ---
 
@@ -19,8 +21,11 @@ This repository provides a **minimal yet extensible** example of an OPC UA **Ser
 
 ✅ **Python-based OPC UA Server** that exposes simulated industrial devices  
 ✅ **Client** capable of browsing, reading, and live-monitoring variables  
-✅ **Real-time data update loop** (temperature, pressure, etc.)  
-✅ **Object-oriented structure**, easy to expand with new devices  
+✅ **Real-time data update loop** (temperature, pressure, etc.)
+✅ **Custom remote method** exposed by the server (e.g. ResetDevice)  
+✅ **Object-oriented structure**, easy to expand with new devices
+✅ **Logging system** (logs/server.log) for monitoring runtime activity
+✅ **Client-side callbacks** for real-time value changes
 ✅ **Error handling and robustness** (skips invalid nodes gracefully)  
 ✅ Compatible with any OPC UA client (e.g. *UaExpert*, *Prosys*, *Node-RED*, *Ignition*)
 
@@ -32,6 +37,8 @@ This repository provides a **minimal yet extensible** example of an OPC UA **Ser
 - [client.py](./client.py) # OPC UA client: connects, browses, and monitors variables
 - [requirements.txt](./requirements.txt) # Dependencies
 - [README.md](./README.md) # This file
+- [logs](/logs/)
+    - [server.log](/logs/server.log) # Runtime logs automatically created
 
 ---
 
@@ -70,7 +77,11 @@ You should see:
 OPC UA Server started at opc.tcp://localhost:4840/freeopcua/server/
 ```
 
-The server will periodically update the device variables.
+The server will:
+- create multiple simulated devices (`Boiler_1`, `Pump_2`);
+- periodically update the device variables;
+- exposes a **ResetDevice()** method callable from clients;
+- logs all updates to [logs/server.log](/logs/server.log)
 
 ### 3️⃣ Run the Client
 In another terminal:
@@ -81,20 +92,21 @@ Expected output example:
 ```bash
 Connected to OPC UA Server at opc.tcp://localhost:4840/freeopcua/server/
 
-Found device: Thermometer_1
+Found device: Boiler_1
  - Temperature: 20.1
  - Pressure: 1.03
  - Running: True
 
-Found device: Barometer_2
+Found device: Pump_2
  - Temperature: 20.4
  - Pressure: 1.02
  - Running: False
 ```
 The client will:
-- Connect to the server
-- Browse all devices and variables
-- Print live data updates in real time
+- connect to the server
+- browse all devices and variables
+- subscribe to variable changes and print data updates in real time
+- call server methods (e.g. `ResetDevice`) as an example of remote control.
 
 You can stop monitoring anytime with **Ctrl+C**
 
@@ -120,6 +132,7 @@ It’s the evolution of the classic OPC protocol, re-designed to be:
 | **Node**          | The basic element in the OPC UA address space (can be an Object, Variable, Method, etc.). |
 | **Attributes**    | Properties of nodes (e.g., *Value*, *DisplayName*, *NodeId*).                             |
 | **Subscriptions** | Mechanism for clients to get notified when a value changes.                               |
+| **Method**        | A callable function exposed by the server (e.g. reset, calibrate).                        |
 
 ---
 
@@ -128,9 +141,10 @@ It’s the evolution of the classic OPC protocol, re-designed to be:
 1. The Server defines an address space with a hierarchy of nodes (objects, variables, methods).
 2. The Client connects via TCP (opc.tcp://...) and requests access to specific nodes.
 3. The client can:
-    - Browse the structure (discover available nodes)
-    - Read or write variable values
-    - Subscribe to updates (receive push notifications)
+    - browse the structure (discover available nodes)
+    - read or write variable values
+    - call methods remotely
+    - subscribe to updates (receive push notifications)
 ---
 ### 🧱 Common Obstacles & Debugging Notes
 | Problem                            | Cause                                      | Solution                                                                     |
@@ -140,15 +154,7 @@ It’s the evolution of the classic OPC protocol, re-designed to be:
 | ⚠️ `BadAttributeIdInvalid`         | Trying to read a non-variable node         | Check node class with `get_node_class()` before calling `get_value()`        |
 | ⚠️ `cryptography is not installed` | Optional package missing                   | Install with `pip install cryptography`                                      |
 | ⚠️ Server stops updating           | Main loop blocked                          | Use non-blocking or threaded updates for future scalability                  |
-
-## 🧩 Extending the Project
-
-Future enhancements could include:
-- [] MQTT bridge (bidirectional OPC UA ⇄ MQTT data exchange)
-- [] Web dashboard for real-time visualization
-- [] Logging historical data to a database (e.g., InfluxDB)
-- [] Integration with Digital Twin frameworks
-- [] Deployment in Docker containers
+| 🧩 Logging not working             | No `logs/` folder                          | The server auto-creates it at startup                                 |
 
 ## 👨‍💻 Author
 <div style="display: flex; flex-direction: column; gap: 25px;">
