@@ -80,26 +80,64 @@ The server will periodically update the device variables.
 ### 3️⃣ Run the Client
 In another terminal:
 ```bash
-python client.py
+cd pub_sub # For pub-sub functionality
+cd request_response # For req-res functionality
+
+python sub_client.py
+python request_client.py
 ```
-Expected output example:
+Expected output examples:
+1. Request-Response:
 ```bash
+Connecting to opc.tcp://localhost:4840/freeopcua/server/ ...
+Connected to OPC UA Server
+
+Browsing devices...
+  • Found device: Boiler_1
+  • Found device: Pump_2  
+
+Pump_2.Temperature = 19.92
+Pump_2.Pressure = 1.004
+Pump_2.Running = True
+Method 'ResetDevice' not found in Pump_2.
+
+Disconnected from OPC UA Server
+```
+2. Pub-Sub:
+```bash
+Connecting to OPC UA Server at opc.tcp://localhost:4840/freeopcua/server/...
 Connected to OPC UA Server at opc.tcp://localhost:4840/freeopcua/server/
+Found device: Server
 
 Found device: Boiler_1
- - Temperature: 20.1
- - Pressure: 1.03
- - Running: True
+ - Temperature: 21.11
+ - Pressure: 1.026
+ - Running: False
 
 Found device: Pump_2
- - Temperature: 20.4
- - Pressure: 1.02
+ - Temperature: 20.75
+ - Pressure: 1.019
  - Running: False
+
+Subscribing to device: Boiler_1
+   → Subscribed to Temperature
+   → Subscribed to Pressure
+   → Subscribed to Running
+
+Data Change on Temperature: 
+New Value = 21.11
+Data Change on Pressure:
+New Value = 1.026
+Data Change on Running:
+New Value = True
+
+Disconnecting from OPC UA Server...
+Disconnected from OPC UA Server
 ```
 The client will:
 - Connect to the server
 - Browse all devices and variables
-- Print live data updates in real time
+- Print live data updates in real time (Pub-Sub) or print requested data one time only (Req-Res)
 
 You can stop monitoring anytime with **Ctrl+C**
 
