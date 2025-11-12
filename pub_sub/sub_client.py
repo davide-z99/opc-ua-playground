@@ -62,45 +62,6 @@ class OPCUAClient:
                 print(f"   → Subscribed to {name}")
             except Exception:
                 pass
-    
-    # def monitor(self, interval):
-    #     '''
-    #     Continuously monitor device variables
-    #     '''
-    #     print("\nStarting live monitoring...\n")
-    #     object = self.client.get_objects_node()
-    #     devices = object.get_children()
-    #     try:
-    #         while True:
-    #             for dev in devices:
-    #                 # Filter only custom devices (namespace index 2)
-    #                 if dev.nodeid.NamespaceIndex != 2:
-    #                     continue
-                    
-    #                 dev_name = dev.get_browse_name().Name
-    #                 print(f"Device: {dev_name}")
-
-    #                 for var in dev.get_children():
-    #                     try:
-    #                         # Only read variable nodes
-    #                         if var.get_node_class() == ua.NodeClass.Variable:
-    #                             var_name = var.get_browse_name().Name
-    #                             var_value = var.get_value()
-    #                             print(f"{var_name} -> {var_value}")
-    #                         else:
-    #                             continue
-    #                     except Exception as e:
-    #                         # Ignore unreadable or temporary nodes
-    #                         print(f"Error reading device {dev_name}: {e}")
-    #                         continue
-
-    #                 print("")
-
-    #             time.sleep(interval)
-    #             print("-" * 40)
-    #     except KeyboardInterrupt:
-    #         print("\nMonitoring stopped by user.")
-
 
     def disconnect(self):
         print("Disconnecting from OPC UA Server...")
